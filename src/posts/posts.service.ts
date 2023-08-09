@@ -40,4 +40,18 @@ export class PostsService {
     }
     return post;
   }
+
+  async findByAuthor(author: User, skip, take): Promise<Post[]> {
+    return await this.postsRepository.find({
+      relations: ['author'],
+      where: {
+        author: {
+          id: author.id,
+        },
+      },
+      skip,
+      take,
+      order: { id: 'DESC' },
+    });
+  }
 }

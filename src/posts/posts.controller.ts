@@ -58,4 +58,18 @@ export class PostsController {
   ): Promise<PostEntity> {
     return this.ratingService.ratePost(id, body.rating);
   }
+
+  @UseGuards(JwtAuthGuard)
+  @Get('my')
+  async findCurrentUserPosts(
+    @Req() req,
+    @Query() pagination: Pagination,
+  ): Promise<PostEntity[]> {
+    const user: User = req.user;
+    return this.postsService.findByAuthor(
+      user,
+      PaginationUtil.getSkip(pagination),
+      PaginationUtil.getTake(pagination),
+    );
+  }
 }

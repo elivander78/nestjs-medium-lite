@@ -14,6 +14,7 @@ export class AuthService {
 
   async validateUser(email: string, password: string): Promise<User | null> {
     const user = await this.usersService.findByEmail(email);
+    console.log(user);
     if (user && (await bcrypt.compare(password, user.password))) {
       return user;
     }
@@ -28,11 +29,11 @@ export class AuthService {
   }
 
   async register(userDto: UserDto): Promise<User> {
-    const existingUser = await this.usersService.findByEmail(userDto.email);
+    const existingUser = await this.usersService.userExist(userDto.email);
+
     if (existingUser) {
       throw new ConflictException('User with this email already exists');
     }
-
     return await this.usersService.create(userDto);
   }
 }

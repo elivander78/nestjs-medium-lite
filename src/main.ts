@@ -10,6 +10,7 @@ async function bootstrap() {
     .setTitle('Medium Lite')
     .setDescription('API for a simple backend similar to Medium')
     .setVersion('1.0')
+    .addBearerAuth()
     .build();
 
   const document = SwaggerModule.createDocument(app, options);
